@@ -1,0 +1,96 @@
+# ============================================================
+# autosub .gitignore
+# 原则：只提交「源码 + 文档 + 锁定文件」。
+#       构建产物、虚拟环境、模型权重、任务产物、测试媒体一律不入库。
+# ============================================================
+
+# ---------- Python ----------
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+
+# ---------- 构建与打包产物（build_exe.py 生成）----------
+build/
+dist/
+*.egg-info/
+*.whl
+# PyInstaller 每次构建自动生成的临时 spec
+*.spec
+
+# ---------- 虚拟环境与依赖 ----------
+.venv/
+venv/
+env/
+.uv/
+# 本项目约定：test/（单数）是本地 venv，tests/（复数）才是测试代码，别搞混
+/test/
+
+# ---------- 测试 / 类型检查 / 代码检查缓存 ----------
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# ---------- 模型权重与推理缓存（动辄几百 MB ~ 数 GB）----------
+# 用 `autosub download-model <名> -o 目录` 下载的纯文件目录
+/models/
+# 拷进仓库的 HuggingFace 缓存结构（hub/models--*/snapshots|blobs）
+/hub/
+snapshots/
+blobs/
+*.incomplete
+*.bin
+*.onnx
+*.pt
+*.pth
+*.safetensors
+
+# ---------- 任务与产物（默认在 ~/.autosub/jobs）----------
+/jobs/
+.autosub/
+
+# ---------- 媒体素材（仓库里不该出现大文件）----------
+*.mp4
+*.mov
+*.mkv
+*.avi
+*.flv
+*.webm
+*.m4v
+*.mpg
+*.mpeg
+*.wmv
+*.wav
+*.mp3
+*.m4a
+*.flac
+
+# 放在程序同目录用于兜底的 ffmpeg 二进制（见 README「打包与分发」）
+/ffmpeg
+/ffmpeg.exe
+
+# ---------- 临时文件与日志 ----------
+*.log
+tmp/
+temp/
+*.tmp
+
+# ---------- 操作系统 ----------
+.DS_Store
+._*
+Thumbs.db
+desktop.ini
+
+# ---------- 编辑器 / IDE ----------
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# ---------- 本地环境变量与密钥（别把 token 提交上去）----------
+.env
+.env.*
+!.env.example

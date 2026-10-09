@@ -1,0 +1,53 @@
+[project]
+name = "autosub"
+version = "1.2.7"
+description = "跨平台视频自动加字幕：本地 Whisper 转写 + ffmpeg 烧录/软字幕，带 CLI 与浏览器 GUI"
+readme = "README.md"
+requires-python = ">=3.10,<3.14"
+license = { text = "MIT" }
+authors = [{ name = "autosub" }]
+keywords = ["subtitle", "whisper", "srt", "ffmpeg", "video", "transcription"]
+classifiers = [
+    "Environment :: Console",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Topic :: Multimedia :: Video",
+]
+
+dependencies = [
+    "faster-whisper>=1.0.0",
+    "huggingface-hub>=0.23",
+]
+
+[project.optional-dependencies]
+# 想给 exe 兜底一个 ffmpeg 时可装（不装也能用系统 PATH 里的 ffmpeg）
+ffmpeg = ["imageio-ffmpeg>=0.4.9"]
+
+[project.scripts]
+autosub = "autosub.cli:main"
+autosub-gui = "autosub.gui:main"
+
+[project.urls]
+Homepage = "https://example.invalid/autosub"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/autosub"]
+
+[tool.hatch.build.targets.sdist]
+include = ["src/autosub", "build_exe.py", "packaging", "tests", "README.md", "LICENSE",
+           "CONTRACT.md", "GOTCHAS.md", "RELEASE.md", "AGENTS.md", "pyproject.toml"]
+
+# 打包所需工具放在默认 dev 组：这样 `uv run python build_exe.py` 会自动把它们同步进来
+[dependency-groups]
+dev = [
+    "pyinstaller>=6.0",
+    "build>=1.2",
+    "imageio-ffmpeg>=0.4.9",
+]
+
+[tool.uv]
+package = true
